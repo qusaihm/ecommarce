@@ -1,0 +1,64 @@
+body {
+  background-color: #faf6f0 !important;
+  font-family: Arial, sans-serif;
+  color: #120e0e !important;
+}
+
+section {
+  background-color: #ffffff !important;
+  border-radius: 0.5rem;
+  padding: 2rem;
+}
+
+.card {
+  background-color: #ffffff !important;
+  border: 1px solid #d7c7bc !important;
+  border-radius: 15px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+h3 {
+  color: #8d6e63 !important;
+  font-weight: bold;
+}
+
+h5 {
+  color: #8d6e63 !important;
+  font-weight: normal;
+}
+
+.info-background {
+  background-color: #f0e4da !important;
+  border-radius: 8px;
+  padding: 0.75rem;
+}
+
+.btn-primary,
+.btn-custom {
+  background-color: #8d6e63 !important;
+  border: none;
+  color: #fff !important;
+  border-radius: 25px;
+  padding: 10px 20px;
+  transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover,
+.btn-custom:hover {
+  background-color: #70574a !important;
+}
+
+.profile-image {
+  width: 180px;
+  border-radius: 10px;
+  border: 3px solid #8d6e63 !important;
+}
+
+.spinner-border {
+  color: #8d6e63 !important;
+}
+
+.text-orange {
+  color: #8d6e63 !important;
+  font-weight: bold;
+}
