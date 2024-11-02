@@ -1,0 +1,28 @@
+.form-signin {
+  max-width: 400px;
+  padding: 15px;
+}
+
+.form-signin img {
+  border-radius: 10px;
+}
+
+.form-signin .form-control {
+  height: calc(2.5rem + 2px);
+  font-size: 1rem;
+}
+
+.form-signin .alert {
+  font-size: 0.9rem;
+  text-align: left;
+}
+
+.form-signin button {
+  font-size: 1rem;
+}
+
+.form-signin input[type="file"] {
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+}

@@ -1,0 +1,24 @@
+.text-orange {
+  color: #ff7f11;
+  font-weight: bold;
+}
+
+.card {
+  background-color: #fff;
+  border: 1px solid #ff7f11;
+  border-radius: 10px;
+}
+
+.card-title {
+  color: #ff7f11;
+  font-weight: bold;
+}
+
+.list-group-item {
+  background-color: #f7f7f7;
+  border: 1px solid #e6e6e6;
+}
+
+.text-center {
+  color: #5d5d5d;
+}

@@ -1,0 +1,82 @@
+.h-custom {
+  background-color: #faf6f0 !important;
+  min-height: 100vh;
+  padding-bottom: 80px;
+}
+
+.card-registration-2 {
+  background-color: #ffe0b2;
+  border-radius: 15px;
+  padding: 2rem !important;
+}
+
+h1.fw-bold,
+h3.fw-bold,
+h5.text-uppercase {
+  color: #0d0d0c !important;
+}
+
+.btn-outline-danger {
+  color: #bf360c;
+  border-color: #bf360c;
+}
+
+.btn-outline-danger:hover {
+  background-color: #bf360c;
+  color: #fff !important;
+}
+
+.btn-warning {
+  background-color: #e65100 !important;
+  border-color: #e65100 !important;
+  color: #fff !important;
+}
+
+.btn-warning:hover {
+  background-color: #bf360c !important;
+}
+
+.btn-dark {
+  background-color: #5d4037 !important;
+  border-color: #5d4037 !important;
+  color: #fff !important;
+}
+
+.btn-dark:hover {
+  background-color: #4e342e !important;
+}
+
+.card img {
+  transition: none !important;
+}
+
+.card img:hover {
+  transform: none !important;
+}
+
+.text-muted {
+  color: #6d4c41 !important;
+}
+
+.bg-body-tertiary {
+  background-color: #ffe0b2 !important;
+}
+
+.btn-outline-dark.btn-sm {
+  color: #6d4c41 !important;
+  border-color: #6d4c41 !important;
+}
+
+.btn-outline-dark.btn-sm:hover {
+  background-color: #6d4c41 !important;
+  color: #fff !important;
+}
+
+input[type="number"] {
+  width: 50px;
+  text-align: center;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
