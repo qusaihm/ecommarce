@@ -6,14 +6,12 @@ import "./Navbar.css";
 import logoImage from '../assets/image/Exclusive.png';
 
 export default function Navbar() {
-  const { userName, setUserName, setUserToken } = useContext(UserContext);
+  const { userName, logout } = useContext(UserContext);
   const { cartCounter } = useContext(CartContext);
   const navigate = useNavigate();
 
-  const logout = () => {
-    localStorage.removeItem("userToken");
-    setUserToken(null);
-    setUserName(null);
+  const handleLogout = async () => {
+    await logout();
     navigate("/login");
   };
 
@@ -37,19 +35,15 @@ export default function Navbar() {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
             <li className="nav-item">
-              <NavLink className="nav-link" to="/">
-                Home
-              </NavLink>
+              <NavLink className="nav-link" to="/">Home</NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/products">
-                Products
-              </NavLink>
+              <NavLink className="nav-link" to="/products">Products</NavLink>
             </li>
             {userName && (
               <li className="nav-item">
                 <NavLink className="nav-link" to="/cart">
-                  Cart {cartCounter > 0 && <span> </span>}
+                  Cart {cartCounter > 0 && <span>({cartCounter})</span>}
                 </NavLink>
               </li>
             )}
@@ -58,48 +52,35 @@ export default function Navbar() {
           <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
             {userName ? (
               <li className="nav-item dropdown">
-                <a
+                <span
                   className="nav-link dropdown-toggle"
-                  href="#"
                   id="userDropdown"
                   role="button"
                   data-bs-toggle="dropdown"
                   aria-expanded="false"
+                  style={{ cursor: "pointer" }}
                 >
-                  {userName} Profile
-                </a>
-                <ul
-                  className="dropdown-menu dropdown-menu-end"
-                  aria-labelledby="userDropdown"
-                >
+                  {userName}
+                </span>
+                <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
                   <li>
-                    <Link to="/user/profile" className="dropdown-item">
-                      {userName} Profile
-                    </Link>
+                    <Link to="/user/profile" className="dropdown-item">Profile</Link>
                   </li>
                   <li>
-                    <Link to="user/profile/myorder" className="dropdown-item">
-                      {userName} Orders
-                    </Link>
+                    <Link to="/user/profile/myorder" className="dropdown-item">My Orders</Link>
                   </li>
                   <li>
-                    <button onClick={logout} className="dropdown-item">
-                      Logout
-                    </button>
+                    <button onClick={handleLogout} className="dropdown-item">Logout</button>
                   </li>
                 </ul>
               </li>
             ) : (
               <>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/login">
-                    Login
-                  </NavLink>
+                  <NavLink className="nav-link" to="/login">Login</NavLink>
                 </li>
                 <li className="nav-item">
-                  <NavLink className="nav-link" to="/register">
-                    Register
-                  </NavLink>
+                  <NavLink className="nav-link" to="/register">Register</NavLink>
                 </li>
               </>
             )}

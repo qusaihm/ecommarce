@@ -1,23 +1,40 @@
 import { createContext, useEffect, useState } from "react";
-import { jwtDecode } from "jwt-decode";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
 export const UserContext = createContext();
 
 const UserContextProvider = ({ children }) => {
-  const [userToken, setUserToken] = useState(localStorage.getItem("userToken"));
+  const [userToken, setUserToken] = useState(null);
   const [userName, setUserName] = useState(null);
-  const getUserData = () => {
-    if (userToken != null) {
-      const decoded = jwtDecode(userToken);
-      setUserName(decoded.userName);
-    }
-  };
+  const [userEmail, setUserEmail] = useState(null);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    getUserData();
-  }, [userToken]);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserToken(user.uid);
+        setUserName(user.displayName || user.email.split("@")[0]);
+        setUserEmail(user.email);
+      } else {
+        setUserToken(null);
+        setUserName(null);
+        setUserEmail(null);
+      }
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const logout = async () => {
+    await signOut(auth);
+    setUserToken(null);
+    setUserName(null);
+  };
 
   return (
-    <UserContext.Provider value={{ setUserToken, userName, setUserName }}>
+    <UserContext.Provider value={{ userToken, setUserToken, userName, setUserName, userEmail, logout, loading }}>
       {children}
     </UserContext.Provider>
   );

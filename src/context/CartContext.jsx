@@ -1,28 +1,21 @@
 import { createContext, useState, useEffect } from "react";
-import axios from "axios";
 
 export const CartContext = createContext();
 
 const CartContextProvider = ({ children }) => {
   const [cartCounter, setCartCounter] = useState(0);
-  const token = localStorage.getItem("userToken");
 
-  const getCartCount = async () => {
-    if (!token) return;
-    try {
-      const { data } = await axios.get(`${import.meta.env.VITE_API}cart`, {
-        headers: {
-          Authorization: `Tariq__${token}`,
-        },
-      });
-      setCartCounter(data.count);
-    } catch (error) {
-      console.error("Error fetching cart count:", error);
-    }
+  const getCartCount = () => {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    setCartCounter(cart.length);
   };
 
   useEffect(() => {
     getCartCount();
+
+    // Listen for cart updates
+    window.addEventListener("storage", getCartCount);
+    return () => window.removeEventListener("storage", getCartCount);
   }, []);
 
   return (

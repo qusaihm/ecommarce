@@ -1,110 +1,68 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import { Flip, Slide, toast, Zoom } from "react-toastify";
-import Products from "./../../products/components/Products";
-import NotFound from "../../../components/NotFound";
-import "./subCategories.css";
+import { useParams, Link } from "react-router-dom";
+import axios from "axios";
+import { Slide, toast } from "react-toastify";
+import { FaCartPlus } from "react-icons/fa";
+
+const FAKESTORE_API = "https://fakestoreapi.com";
 
 export default function SubCategories() {
-  const { id } = useParams("id");
-
+  const { id } = useParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const getProducts = async () => {
-    setLoading(true);
-    try {
-      const { data } = await axios.get(
-        `${import.meta.env.VITE_API}products/category/${id}`
-      );
-      setProducts(data.products);
-    } catch (error) {
-      console.error("Error fetching products", error);
-    }
-    setLoading(false);
-  };
-
   useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const { data } = await axios.get(`${FAKESTORE_API}/products/category/${id}`);
+        setProducts(data);
+      } catch (error) {
+        console.error("Error fetching category products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
     getProducts();
-  }, []);
+  }, [id]);
 
-  const addToCart = async (productId) => {
-    const token = localStorage.getItem("userToken");
-    try {
-      const { data } = await axios.post(
-        `${import.meta.env.VITE_API}cart`,
-        { productId },
-        {
-          headers: { Authorization: `Tariq__${token}` },
-        }
-      );
-
-      if (data.message === "success") {
-        toast.success("Add to Cart successfully", {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: "dark",
-          transition: Slide,
-        });
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 409) {
-        toast.error(error.response.data.message, {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          theme: "dark",
-          transition: Zoom,
-        });
-      }
+  const addToCart = (product) => {
+    const cart = JSON.parse(localStorage.getItem("cart") || "[]");
+    const exists = cart.find((item) => item.id === product.id);
+    if (exists) {
+      toast.error("Already in cart!", { position: "top-center", autoClose: 3000, theme: "dark" });
+      return;
     }
+    cart.push({ ...product, quantity: 1 });
+    localStorage.setItem("cart", JSON.stringify(cart));
+    toast.success("Added to Cart!", { position: "top-right", autoClose: 3000, theme: "dark", transition: Slide });
   };
 
   return (
-    <div>
-      <Link to="/">
-        <button type="button" className="btn btn-secondary ms-4">
-          Back to home
-        </button>
-      </Link>
-      <div className="d-flex p-4 gap-3 mb-3 flex-wrap">
-        {loading ? (
-          <div className="loader-container">
-            <div className="spinner spinner-border text-primary" role="status">
-              <span className="visually-hidden">Loading...</span>
-            </div>
-          </div>
-        ) : products.length < 1 ? (
-          <NotFound />
-        ) : (
-          products.map((product) => (
-            <div className="card" style={{ width: "18rem" }} key={product._id}>
-              <img
-                src={product.mainImage.secure_url}
-                alt={product.name}
-                className="card-img-top h-75"
-              />
-              <div className="card-body h-25">
-                <h6 className="h-50">{product.name}</h6>
-                <button
-                  onClick={() => addToCart(product._id)}
-                  className="btn btn-outline-danger"
-                >
-                  add to cart
-                </button>
+    <div className="container mt-4">
+      <h3 className="mb-4 text-capitalize">{id}</h3>
+      {loading ? (
+        <div className="d-flex justify-content-center" style={{ height: "50vh" }}>
+          <div className="spinner-border text-primary" role="status" />
+        </div>
+      ) : (
+        <div className="d-flex flex-wrap gap-3">
+          {products.map((product) => (
+            <div className="card" style={{ width: "18rem" }} key={product.id}>
+              <img src={product.image} alt={product.title} className="card-img-top p-3" style={{ height: "200px", objectFit: "contain" }} />
+              <div className="card-body d-flex flex-column">
+                <h6 style={{ fontSize: "0.85rem" }}>{product.title.substring(0, 50)}...</h6>
+                <p className="fw-bold">${product.price}</p>
+                <div className="d-flex gap-2 mt-auto">
+                  <Link className="btn btn-info btn-sm" to={`/details/${product.id}`}>Details</Link>
+                  <button onClick={() => addToCart(product)} className="btn btn-danger btn-sm d-flex align-items-center gap-1">
+                    <FaCartPlus /> Add to Cart
+                  </button>
+                </div>
               </div>
             </div>
-          ))
-        )}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }

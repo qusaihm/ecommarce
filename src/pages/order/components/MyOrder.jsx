@@ -1,29 +1,14 @@
-import axios from "axios";
 import React, { useEffect, useState } from "react";
 import "./myOrder.css";
-import { Spinner } from "react-bootstrap";
 
 export default function MyOrders() {
-  const [order, setOrder] = useState([]);
+  const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const getOrder = async () => {
-    try {
-      const { data } = await axios.get(`${import.meta.env.VITE_API}order`, {
-        headers: {
-          Authorization: `Tariq__${localStorage.getItem("userToken")}`,
-        },
-      });
-      setOrder(data.orders);
-    } catch (error) {
-      console.error("Error fetching orders:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
-    getOrder();
+    const savedOrders = JSON.parse(localStorage.getItem("orders") || "[]");
+    setOrders(savedOrders);
+    setLoading(false);
   }, []);
 
   return (
@@ -32,46 +17,36 @@ export default function MyOrders() {
       <div className="container">
         {loading ? (
           <div className="text-center my-5">
-            <Spinner animation="border" variant="warning" />
+            <div className="spinner-border text-warning" role="status" />
           </div>
-        ) : order.length === 0 ? (
+        ) : orders.length === 0 ? (
           <p className="text-center">You don't have any orders yet!</p>
         ) : (
-          order.map((item) => (
-            <div key={item._id} className="card mb-4 shadow-sm">
+          orders.map((item) => (
+            <div key={item.id} className="card mb-4 shadow-sm">
               <div className="card-body">
                 <ul className="list-group list-group-flush mb-3">
                   <li className="list-group-item">Address: {item.address}</li>
-                  <li className="list-group-item">
-                    Phone Number: {item.phoneNumber}
-                  </li>
-                  <li className="list-group-item">
-                    Final Price: ${item.finalPrice}
-                  </li>
+                  <li className="list-group-item">Phone: {item.phone}</li>
+                  <li className="list-group-item">Date: {item.date}</li>
+                  <li className="list-group-item">Total: ${item.finalPrice}</li>
                 </ul>
-                <h6 className="text-orange">List of Products</h6>
+                <h6 className="text-orange">Products</h6>
                 <div className="d-flex flex-wrap gap-3">
                   {item.products.map((product) => (
-                    <div
-                      key={product.productId._id}
-                      className="card"
-                      style={{ width: "18rem" }}
-                    >
+                    <div key={product.id} className="card" style={{ width: "18rem" }}>
                       <img
-                        src={product.productId.mainImage.secure_url}
-                        className="card-img-top"
-                        alt={product.productId.name}
+                        src={product.image}
+                        className="card-img-top p-3"
+                        alt={product.title}
+                        style={{ height: "150px", objectFit: "contain" }}
                       />
                       <div className="card-body">
-                        <h5 className="card-title">{product.productId.name}</h5>
+                        <h6 className="card-title">{product.title?.substring(0, 40)}...</h6>
                       </div>
                       <ul className="list-group list-group-flush">
-                        <li className="list-group-item">
-                          Price: ${product.finalPrice}
-                        </li>
-                        <li className="list-group-item">
-                          Quantity: {product.quantity}
-                        </li>
+                        <li className="list-group-item">Price: ${product.price}</li>
+                        <li className="list-group-item">Quantity: {product.quantity}</li>
                       </ul>
                     </div>
                   ))}
