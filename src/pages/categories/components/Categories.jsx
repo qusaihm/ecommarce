@@ -46,7 +46,7 @@ export default function Categories() {
   }, []);
 
   return (
-    <>
+    <div className="categories-wrapper">
       {loading ? (
         <div className="d-flex justify-content-center align-items-center" style={{ height: "50vh" }}>
           <div className="spinner-border text-primary" role="status">
@@ -56,16 +56,24 @@ export default function Categories() {
       ) : (
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y]}
-          spaceBetween={20}
-          slidesPerView={3}
+          spaceBetween={16}
+          slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
-          scrollbar={{ draggable: true }}
+          breakpoints={{
+            480: { slidesPerView: 1.3, spaceBetween: 16 },
+            640: { slidesPerView: 2, spaceBetween: 18 },
+            992: { slidesPerView: 3, spaceBetween: 20 },
+          }}
         >
           {categories.map((category) => (
             <SwiperSlide key={category._id}>
-              <div className="category card shadow-sm mb-5" style={{ width: "85%" }}>
-                <img src={category.image} className="card-img-top" alt={category.name} style={{ height: "200px", objectFit: "contain", padding: "10px" }} />
+              <div className="category card shadow-sm mb-5">
+                <img
+                  src={category.image}
+                  className="card-img-top"
+                  alt={category.name}
+                />
                 <div className="card-body">
                   <h5 className="card-title">{category.name}</h5>
                   {userName && (
@@ -79,6 +87,6 @@ export default function Categories() {
           ))}
         </Swiper>
       )}
-    </>
+    </div>
   );
 }

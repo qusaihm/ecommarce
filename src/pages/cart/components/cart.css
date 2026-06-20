@@ -7,7 +7,15 @@
 .card-registration-2 {
   background-color: #ffe0b2;
   border-radius: 15px;
-  padding: 2rem !important;
+  overflow: hidden;
+}
+
+.cart-padding {
+  padding: 2.5rem;
+}
+
+.cart-title {
+  font-size: 1.75rem;
 }
 
 h1.fw-bold,
@@ -73,10 +81,46 @@ h5.text-uppercase {
 }
 
 input[type="number"] {
-  width: 50px;
+  width: 45px;
   text-align: center;
-  font-size: 1rem;
-  padding: 0.5rem;
+  font-size: 0.9rem;
+  padding: 0.4rem;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+  .cart-padding {
+    padding: 1.5rem;
+  }
+
+  .cart-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 576px) {
+  .cart-padding {
+    padding: 1.25rem;
+  }
+
+  .cart-title {
+    font-size: 1.25rem;
+  }
+
+  .cart-item-row {
+    background-color: rgba(255, 255, 255, 0.4);
+    border-radius: 10px;
+    padding: 0.75rem 0.25rem;
+  }
+
+  .cart-item-title {
+    font-size: 0.8rem;
+  }
+
+  h6 {
+    font-size: 0.9rem;
+  }
 }

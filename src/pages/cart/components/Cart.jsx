@@ -40,17 +40,17 @@ export default function Cart() {
   const calculateTotal = () => products.reduce((total, p) => total + p.price * p.quantity, 0);
 
   return (
-    <section className="h-100 h-custom" style={{ backgroundColor: "#d2c9ff" }}>
+    <section className="h-100 h-custom">
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-12">
-            <div className="card-registration card-registration-2" style={{ borderRadius: 15 }}>
+            <div className="card-registration card-registration-2">
               <div className="card-body p-0">
                 <div className="row g-0">
-                  <div className="col-lg-8">
-                    <div className="p-5">
-                      <div className="d-flex justify-content-between align-items-center mb-5">
-                        <h1 className="fw-bold mb-0">Shopping Cart</h1>
+                  <div className="col-12 col-lg-8">
+                    <div className="cart-padding">
+                      <div className="d-flex justify-content-between align-items-center flex-wrap mb-4">
+                        <h1 className="fw-bold mb-0 cart-title">Shopping Cart</h1>
                         <h6 className="mb-0 text-muted">{products.length} items</h6>
                       </div>
 
@@ -60,23 +60,50 @@ export default function Cart() {
                         products.map((product) => (
                           <div key={product.id}>
                             <hr className="my-4" />
-                            <div className="row mb-4 d-flex justify-content-between align-items-center">
-                              <div className="col-md-2">
-                                <img src={product.image} className="img-fluid rounded-3" alt={product.title} style={{ objectFit: "contain", height: "80px" }} />
+                            <div className="row mb-3 align-items-center cart-item-row">
+                              <div className="col-4 col-sm-2">
+                                <img
+                                  src={product.image}
+                                  className="img-fluid rounded-3"
+                                  alt={product.title}
+                                  style={{ objectFit: "contain", height: "70px" }}
+                                />
                               </div>
-                              <div className="col-md-3">
-                                <h6 className="mb-0" style={{ fontSize: "0.85rem" }}>{product.title.substring(0, 40)}...</h6>
+                              <div className="col-8 col-sm-4 col-md-3">
+                                <h6 className="mb-0 cart-item-title">{product.title.substring(0, 40)}...</h6>
                               </div>
-                              <div className="col-md-3 d-flex align-items-center">
-                                <button className="btn btn-outline-dark btn-sm" onClick={() => updateQuantity(product.id, "decrease")} disabled={product.quantity <= 1}>-</button>
-                                <input min={1} value={product.quantity} type="number" className="form-control form-control-sm mx-2 text-center" readOnly style={{ width: "50px" }} />
-                                <button className="btn btn-outline-dark btn-sm" onClick={() => updateQuantity(product.id, "increase")}>+</button>
+                              <div className="col-7 col-sm-4 col-md-3 d-flex align-items-center mt-2 mt-sm-0">
+                                <button
+                                  className="btn btn-outline-dark btn-sm"
+                                  onClick={() => updateQuantity(product.id, "decrease")}
+                                  disabled={product.quantity <= 1}
+                                >
+                                  -
+                                </button>
+                                <input
+                                  min={1}
+                                  value={product.quantity}
+                                  type="number"
+                                  className="form-control form-control-sm mx-2 text-center"
+                                  readOnly
+                                />
+                                <button
+                                  className="btn btn-outline-dark btn-sm"
+                                  onClick={() => updateQuantity(product.id, "increase")}
+                                >
+                                  +
+                                </button>
                               </div>
-                              <div className="col-md-2">
-                                <h6>${(product.price * product.quantity).toFixed(2)}</h6>
+                              <div className="col-5 col-sm-1 col-md-2 mt-2 mt-sm-0 text-sm-end">
+                                <h6 className="mb-0">${(product.price * product.quantity).toFixed(2)}</h6>
                               </div>
-                              <div className="col-md-1 text-end">
-                                <button className="btn btn-outline-danger btn-sm" onClick={() => removeProduct(product.id)}>Remove</button>
+                              <div className="col-12 col-sm-1 text-sm-end mt-2 mt-sm-0">
+                                <button
+                                  className="btn btn-outline-danger btn-sm"
+                                  onClick={() => removeProduct(product.id)}
+                                >
+                                  Remove
+                                </button>
                               </div>
                             </div>
                           </div>
@@ -84,27 +111,31 @@ export default function Cart() {
                       )}
 
                       {products.length > 0 && (
-                        <button onClick={clearCart} type="button" className="btn btn-warning mt-3">Clear Cart</button>
+                        <button onClick={clearCart} type="button" className="btn btn-warning mt-3">
+                          Clear Cart
+                        </button>
                       )}
                     </div>
                   </div>
 
-                  <div className="col-lg-4 bg-body-tertiary">
-                    <div className="p-5">
-                      <h3 className="fw-bold mb-5 mt-2 pt-1">Summary</h3>
-                      <hr className="my-4" />
-                      <div className="d-flex justify-content-between mb-4">
-                        <h5 className="text-uppercase">Items {products.length}</h5>
-                        <h5>${calculateTotal().toFixed(2)}</h5>
+                  <div className="col-12 col-lg-4 bg-body-tertiary">
+                    <div className="cart-padding">
+                      <h3 className="fw-bold mb-4 mt-2 pt-1">Summary</h3>
+                      <hr className="my-3" />
+                      <div className="d-flex justify-content-between mb-3">
+                        <h5 className="text-uppercase mb-0">Items {products.length}</h5>
+                        <h5 className="mb-0">${calculateTotal().toFixed(2)}</h5>
                       </div>
-                      <hr className="my-4" />
-                      <div className="d-flex justify-content-between mb-5">
-                        <h5 className="text-uppercase">Total price</h5>
-                        <h5>${calculateTotal().toFixed(2)}</h5>
+                      <hr className="my-3" />
+                      <div className="d-flex justify-content-between mb-4">
+                        <h5 className="text-uppercase mb-0">Total price</h5>
+                        <h5 className="mb-0">${calculateTotal().toFixed(2)}</h5>
                       </div>
                       {products.length > 0 && (
                         <Link to="/order">
-                          <button type="button" className="btn btn-dark btn-block btn-lg">Checkout</button>
+                          <button type="button" className="btn btn-dark btn-block btn-lg w-100">
+                            Checkout
+                          </button>
                         </Link>
                       )}
                     </div>
